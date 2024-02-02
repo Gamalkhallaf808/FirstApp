@@ -1,33 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_2/pages/welcome.dart';
+import 'package:flutter_app_2/pages/home.dart';
 import 'package:flutter_app_2/widget/app-button.dart';
+
 class SignPage extends StatefulWidget {
   const SignPage({super.key, required this.title});
   final String title;
   @override
   State<SignPage> createState() => _SignPageState();
 }
+
 class _SignPageState extends State<SignPage> {
   final _formkey = GlobalKey<FormState>();
-  TextEditingController  phoneNumberControllar = TextEditingController();
-  TextEditingController  passwordControllar = TextEditingController();
+  TextEditingController phoneNumberControllar = TextEditingController();
+  TextEditingController passwordControllar = TextEditingController();
   String phoneNumber = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
+      appBar: AppBar(
         backgroundColor: Colors.red,
-        title: Text("Gamal", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        title: Text(
+          "Gamal",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
       body: Form(
         key: _formkey,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 70),
-                child: Image.asset("image/logo].png"),
-              ),
+          child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 70),
+              child: Image.asset("image/logo].png"),
+            ),
             Padding(
               padding: const EdgeInsets.all(15),
               child: TextFormField(
@@ -71,10 +75,19 @@ class _SignPageState extends State<SignPage> {
               color: Colors.red,
               onTap: () {
                 if (_formkey.currentState!.validate()) {
-                  // if (KDefaultMode) {}
-                  Navigator.push(
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => welcomePagState(
+                  //       phoneNumber: phoneNumberControllar.text,
+                  //     )),
+                  // );
+                  Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => welcomePagState(phoneNumber: phoneNumberControllar.text)),
+                    MaterialPageRoute(
+                        builder: (context) => homePage(
+                              // phoneNumber: phoneNumberControllar.text,
+                            )),
                   );
                   passwordControllar.clear();
                 }
