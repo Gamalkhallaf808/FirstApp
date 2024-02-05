@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_2/pages/splash_screen.dart';
 
 import 'pages/sign.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
         useMaterial3: true,
       ),
-      home: const SignPage(title: 'Gamal'),
+      home: SplashScreen(),
     );
   }
 }

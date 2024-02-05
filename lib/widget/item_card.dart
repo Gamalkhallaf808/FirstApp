@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
   final String productName;
-  const ItemCard({Key? key, required this.productName}) : super(key: key);
-
+  final String price;
+  final String thumbnail;
+  const ItemCard({
+    Key? key,
+    required this.productName,
+    required this.price,
+    required this.thumbnail, required Object quantity,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,9 +23,9 @@ class ItemCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Icon(Icons.shopify),
+              SizedBox(width: 70, height: 70, child: Image.network(thumbnail)),
               Text(productName),
-              Text("100\$"),
+              Text("$price\$"),
             ],
           ),
         ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_2/app_settings.dart';
 import 'package:flutter_app_2/pages/home.dart';
 import 'package:flutter_app_2/widget/app-button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignPage extends StatefulWidget {
-  const SignPage({super.key, required this.title});
-  final String title;
   @override
   State<SignPage> createState() => _SignPageState();
 }
@@ -73,21 +73,15 @@ class _SignPageState extends State<SignPage> {
             appButton(
               lable: "Login In",
               color: Colors.red,
-              onTap: () {
+              onTap: () async {
                 if (_formkey.currentState!.validate()) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => welcomePagState(
-                  //       phoneNumber: phoneNumberControllar.text,
-                  //     )),
-                  // );
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.setString(
+                      AppSettings.userPhone, phoneNumberControllar.text);
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => homePage(
-                              // phoneNumber: phoneNumberControllar.text,
-                            )),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                   passwordControllar.clear();
                 }
@@ -97,9 +91,7 @@ class _SignPageState extends State<SignPage> {
             appButton(
               lable: "No account, sign up",
               color: Colors.blue,
-              onTap: () {
-                print("gamal");
-              },
+              onTap: () {},
             ),
           ]),
         ),
@@ -108,61 +100,3 @@ class _SignPageState extends State<SignPage> {
   }
 }
 
-class _welcomePagState {
-  const _welcomePagState();
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // InkWell(
-            //   // onTap: onTap,
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(
-            //       top: 20,
-            //       bottom: 30,
-            //     ),
-            //     child: Container(
-            //       width: 300,
-            //       height: 50,
-            //       decoration: BoxDecoration(
-            //           color: Colors.red, borderRadius: BorderRadius.circular(7)),
-            //       child: Center(
-            //         child: Text(
-            //           "gamal",
-            //           style: TextStyle(
-            //               color: Colors.white,
-            //               fontSize: 20,
-            //               fontWeight: FontWeight.bold),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),

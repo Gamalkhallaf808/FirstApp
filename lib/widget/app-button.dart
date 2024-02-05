@@ -2,8 +2,8 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
+// ignore: camel_case_types
 class appButton extends StatelessWidget {
-
   final String lable;
   final Color color;
   final void Function()? onTap;
