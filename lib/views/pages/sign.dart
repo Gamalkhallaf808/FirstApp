@@ -1,8 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app_2/app_settings.dart';
-import 'package:flutter_app_2/pages/home.dart';
-import 'package:flutter_app_2/widget/app-button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_app_2/core/firebase_auth_util.dart';
+import 'package:flutter_app_2/views/pages/home.dart';
+import 'package:flutter_app_2/views/widget/app-button.dart';
 
 class SignPage extends StatefulWidget {
   @override
@@ -11,8 +11,9 @@ class SignPage extends StatefulWidget {
 
 class _SignPageState extends State<SignPage> {
   final _formkey = GlobalKey<FormState>();
-  TextEditingController phoneNumberControllar = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   TextEditingController passwordControllar = TextEditingController();
+  bool isLoading = false;
   String phoneNumber = "";
   @override
   Widget build(BuildContext context) {
@@ -35,22 +36,20 @@ class _SignPageState extends State<SignPage> {
             Padding(
               padding: const EdgeInsets.all(15),
               child: TextFormField(
-                controller: phoneNumberControllar,
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
                 obscureText: true,
-                keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  labelText: "Phone",
+                  labelText: "Email",
                 ),
                 onChanged: (val) {
                   phoneNumber = val;
                 },
                 validator: (val) {
-                  String patt = r'(^(?:[+0]9)?[0-9]{10,12}$)';
-                  RegExp reg = new RegExp(patt);
-                  if (reg.hasMatch(val!)) {
+                  if (val!.isNotEmpty) {
                     return null;
                   } else {
-                    return "Invalid Phone Number";
+                    return "Invalid Email";
                   }
                 },
               ),
@@ -70,23 +69,40 @@ class _SignPageState extends State<SignPage> {
                 },
               ),
             ),
-            appButton(
-              lable: "Login In",
-              color: Colors.red,
-              onTap: () async {
-                if (_formkey.currentState!.validate()) {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.setString(
-                      AppSettings.userPhone, phoneNumberControllar.text);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                  passwordControllar.clear();
-                }
-              },
-            ),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : appButton(
+                    lable: "Log in",
+                    color: Colors.blue[300]!,
+                    onTap: () async {
+                      if (_formkey.currentState!.validate()) {
+                        if (kDebugMode) {
+                          print("Logged in");
+                        }
+                        isLoading = true;
+                        setState(() {});
+                        bool loginResult = await FirebaseAuthUtil.loginIn(
+                            email: emailController.text,
+                            password: passwordControllar.text);
+                        if (loginResult) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                          );
+                        } else {
+                          var snackBar = const SnackBar(
+                            content: Text("Email or password is not correct"),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        }
+                        isLoading = false;
+                        setState(() {});
+                      }
+                    },
+                  ),
             Text("Forgot password? No yawa Tap me"),
             appButton(
               lable: "No account, sign up",
@@ -99,4 +115,3 @@ class _SignPageState extends State<SignPage> {
     );
   }
 }
-

@@ -1,6 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_2/app_settings.dart';
-import 'package:flutter_app_2/pages/sign.dart';
+import 'package:flutter_app_2/views/pages/sign.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsUtil {
@@ -23,10 +24,10 @@ class SettingsUtil {
             TextButton(
               child: const Text('Yes'),
               onPressed: () async {
-                final SharedPreferences prefs =
-                    await SharedPreferences.getInstance();
-                await prefs.remove(AppSettings.userPhone);
-                Navigator.pushReplacement(
+                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                await prefs.remove(AppSettings.emailSharedPrefsKey);
+                await FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => SignPage()),
                 );
@@ -44,8 +45,8 @@ class SettingsUtil {
     );
   }
 
-  static Future<String> getCachedUserPhone() async {
+  static Future<String> getCachedUserEmail() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(AppSettings.userPhone) ?? "--";
+    return prefs.getString(AppSettings.emailSharedPrefsKey) ?? "--";
   }
 }

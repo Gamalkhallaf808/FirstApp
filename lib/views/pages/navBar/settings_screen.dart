@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_2/app_settings.dart';
+import 'package:flutter_app_2/core/settings_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -14,12 +14,12 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   void initState() {
     super.initState();
-    getUserPhone();
+    getUserEmail();
   }
 
-  Future<void> getUserPhone() async {
+  Future<void> getUserEmail() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    userPhone = prefs.getString(AppSettings.userPhone) ?? "";
+    userPhone = await SettingsUtil.getCachedUserEmail();
     setState(() {});
   }
 

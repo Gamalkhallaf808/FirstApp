@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_2/models/cart_mobdel.dart';
 import 'package:flutter_app_2/service/cart_service.dart';
-import 'package:flutter_app_2/widget/item_card.dart';
+import 'package:flutter_app_2/views/widget/item_card.dart';
 
 class myCart extends StatefulWidget {
   const myCart({Key? key}) : super(key: key);

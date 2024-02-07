@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_2/card.dart';
 import 'package:flutter_app_2/core/settings_util.dart';
 import 'package:flutter_app_2/models/cart_mobdel.dart';
-import 'package:flutter_app_2/pages/navBar/categories_screen.dart';
-import 'package:flutter_app_2/pages/navBar/main_screen.dart';
-import 'package:flutter_app_2/pages/navBar/settings_screen.dart';
+import 'package:flutter_app_2/views/pages/add_category_page.dart';
+import 'package:flutter_app_2/views/pages/navBar/categories_screen.dart';
+import 'package:flutter_app_2/views/pages/navBar/main_screen.dart';
+import 'package:flutter_app_2/views/pages/navBar/settings_screen.dart';
 import 'package:flutter_app_2/service/cart_service.dart';
-import 'package:flutter_app_2/widget/item_card.dart';
+import 'package:flutter_app_2/views/widget/item_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -18,7 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    bool isLoading = true;
+  bool isLoading = true;
   List<Product> cartList = [];
 
   Future<void> getData() async {
@@ -26,8 +27,9 @@ class _HomePageState extends State<HomePage> {
     isLoading = false;
     setState(() {});
   }
+
   int pageIndex = 0;
-  String phoneNumber = "";
+  String userEmail = "";
   List<Widget> pages = [
     const MainScreen(),
     const CategoriesScreen(),
@@ -36,11 +38,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getPhoneNumber();
+    getUserEmail();
   }
 
-  Future<void> getPhoneNumber() async {
-    phoneNumber = await SettingsUtil.getCachedUserPhone();
+  Future<void> getUserEmail() async {
+    userEmail = await SettingsUtil.getCachedUserEmail();
     setState(() {});
   }
 
@@ -85,14 +87,20 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("Phone: $phoneNumber")],
+                      children: [Text("Email: $userEmail")],
                     ),
                   )
                 ],
               ),
             ),
             InkWell(
-                onTap: () async {},
+                onTap: () async {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddCategoryPage()),
+                  );
+                },
                 child: const ListTile(
                   leading: Icon(Icons.person),
                   title: Text("Profile"),
@@ -101,21 +109,19 @@ class _HomePageState extends State<HomePage> {
                 onTap: () async {},
                 child: const ListTile(
                   leading: Icon(Icons.add_shopping_cart),
-                  title: Text("Add product"),
+                  title: Text("Add category"),
                 )),
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => myCart()),
-                    );
-                  },
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => myCart()),
+                  );
+                },
                 child: const ListTile(
-                  leading: Icon(Icons.settings),
+                  leading: Icon(Icons.shopping_bag),
                   title: Text("cart"),
-                )
-                  ),
+                )),
             InkWell(
                 onTap: () async {},
                 child: const ListTile(

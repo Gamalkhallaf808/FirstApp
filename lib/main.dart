@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app_2/pages/splash_screen.dart';
+import 'package:flutter_app_2/firebase_options.dart';
+import 'package:flutter_app_2/views/pages/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-import 'pages/sign.dart';
+
 
 void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // initialize firebase app
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  };
   runApp(const MyApp());
 }
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_2/models/product_model.dart';
-import 'package:flutter_app_2/pages/product_details_screen.dart';
+import 'package:flutter_app_2/views/pages/product_details_screen.dart';
 import 'package:flutter_app_2/service/product_service.dart';
-import 'package:flutter_app_2/widget/item_card.dart';
+import 'package:flutter_app_2/views/widget/item_card.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
